@@ -25,7 +25,7 @@ The generator produces 120,000 claims reported from 2021 through 2024 across eig
 
 ## Results
 
-See the [measured results and critical validation](reports/results.md) and [SQL findings](reports/sql-findings.md). The out-of-time leakage model beat the operational rules in average precision. The normal scenario still showed a net loss for additional review after modeled costs. These are synthetic findings for a portfolio demonstration.
+See the [measured results and critical validation](reports/results.md) and [SQL findings](reports/sql-findings.md). The out-of-time leakage model beat the operational rules in average precision. The normal scenario still showed a net loss for additional review after modeled costs. These are synthetic findings for a portfolio demonstration. See the [final adversarial validation](reports/final-adversarial-validation.md) for independent recalculations and remaining risks.
 
 ![Executive Overview of the synthetic Streamlit app](reports/figures/overview.png)
 

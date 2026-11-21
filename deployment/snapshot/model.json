@@ -165,8 +165,12 @@
     "conditional_rmse": 316.100249629902,
     "conditional_interval_coverage": 0.9056878949927079,
     "unconditional_mae": 63.1592738038616,
-    "high_estimate_legitimate_flag_rate": 0.09942154736080984,
-    "other_legitimate_flag_rate": 0.060217176702862786
+    "high_estimate_cutoff": 6451.274000000002,
+    "nonactionable_positive_cost_count": 541,
+    "high_estimate_nonactionable_flag_rate": 0.09942154736080984,
+    "other_nonactionable_flag_rate": 0.060217176702862786,
+    "high_estimate_zero_avoidable_cost_flag_rate": 0.09523809523809523,
+    "other_zero_avoidable_cost_flag_rate": 0.057411448715796544
   },
   "test_baselines": {
     "Operational rules": {

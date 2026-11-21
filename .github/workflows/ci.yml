@@ -8,6 +8,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       OPENBLAS_NUM_THREADS: 2
       OMP_NUM_THREADS: 2
@@ -21,6 +22,7 @@ jobs:
             requirements.txt
             requirements-dev.txt
       - run: pip install -r requirements-dev.txt
+      - run: python -m scripts.verify_snapshot
       - run: python -m pytest -q
       - run: python -m scripts.pipeline --claims 5000 --db data/ci.duckdb --output data/ci-snapshot
       - run: python -m scripts.verify_snapshot data/ci-snapshot

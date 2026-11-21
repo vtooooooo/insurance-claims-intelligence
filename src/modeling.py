@@ -154,9 +154,15 @@ def fit(features, truth, seed):
     interval_radius = float(np.quantile(abs(positive_val.avoidable_cents/100 - amount_predict(amount_model,positive_val)), .9))
     test_final["conditional_interval_coverage"] = float(np.mean(abs(test.avoidable_cents[actionable]/100 - amounts[actionable]) <= interval_radius))
     test_final["unconditional_mae"] = mean_absolute_error(np.where(actionable,test.avoidable_cents/100,0), scores*amounts)
-    expensive = (~actionable) & (test.estimate >= train.estimate.quantile(.9))
-    test_final["high_estimate_legitimate_flag_rate"] = float(np.mean(scores[expensive] >= threshold))
-    test_final["other_legitimate_flag_rate"] = float(np.mean(scores[~actionable & ~expensive] >= threshold))
+    estimate_cutoff = float(train.estimate.quantile(.9))
+    expensive = test.estimate.to_numpy() >= estimate_cutoff
+    test_final["high_estimate_cutoff"] = estimate_cutoff
+    test_final["nonactionable_positive_cost_count"] = int((~actionable & test.avoidable_cents.gt(0)).sum())
+    for name, cohort in {"nonactionable": ~actionable,
+                         "zero_avoidable_cost": test.avoidable_cents.eq(0).to_numpy()}.items():
+        for band, mask in {"high_estimate": expensive, "other": ~expensive}.items():
+            flags = scores[cohort & mask] >= threshold
+            test_final[f"{band}_{name}_flag_rate"] = float(flags.mean()) if flags.size else None
     test_baselines = {}
     for name, (candidate, calibrator, cutoff) in candidates.items():
         test_baselines[name] = metrics(test, calibrator.predict(raw(candidate,test)), cutoff)

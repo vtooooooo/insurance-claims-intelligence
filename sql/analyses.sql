@@ -14,10 +14,10 @@ SELECT reason,count(*) AS changes,avg(new-previous)/100 AS mean_change,sum(new-p
 SELECT date_trunc('quarter',fnol)::DATE AS quarter,avg((supplement>0)::INTEGER) AS rate,avg(supplement)/100 AS mean_per_claim FROM ledger GROUP BY 1 ORDER BY 1;
 -- vendors | Which vendors have a cost residual after adjustment for severity, coverage and complexity?
 WITH strata AS (SELECT *,avg(net) OVER(PARTITION BY severity,coverage,complexity) AS expected FROM ledger)
-SELECT vendor_id,any_value(specialization) AS specialization,count(*) AS claims,avg(net)/100 AS mean_paid,avg(net-expected)/100 AS residual,avg(cycle) AS days,avg((supplement>0)::INTEGER) AS supplement_rate,sum(net)/100 AS total_paid FROM strata JOIN vendors USING(vendor_id) GROUP BY 1 ORDER BY 1;
+SELECT vendor_id,any_value(specialization) AS specialization,count(*) AS claims,avg(net)/100 AS mean_paid,round(avg(net-expected)/100,8) AS residual,avg(cycle) AS days,avg((supplement>0)::INTEGER) AS supplement_rate,sum(net)/100 AS total_paid FROM strata JOIN vendors USING(vendor_id) GROUP BY 1 ORDER BY 1;
 -- workload | How do cycle time and expected cycle differences vary by team?
 WITH strata AS (SELECT *,avg(cycle) OVER (PARTITION BY severity,complexity,coverage) AS expected FROM ledger)
-SELECT team,count(*) AS claims,avg(e.detail) AS workload,avg(cycle) AS mean_days,avg(cycle-expected) AS residual_days,count(*) FILTER(WHERE cycle>=40) AS older_than_40_days FROM strata JOIN claims c USING(claim_id) JOIN adjusters a ON c.adjuster_id=a.adjuster_id JOIN events e USING(claim_id) WHERE e.kind='assignment' GROUP BY 1 ORDER BY 1;
+SELECT team,count(*) AS claims,avg(e.detail) AS workload,avg(cycle) AS mean_days,round(avg(cycle-expected),8) AS residual_days,count(*) FILTER(WHERE cycle>=40) AS older_than_40_days FROM strata JOIN claims c USING(claim_id) JOIN adjusters a ON c.adjuster_id=a.adjuster_id JOIN events e USING(claim_id) WHERE e.kind='assignment' GROUP BY 1 ORDER BY 1;
 -- documentation | How often is documentation present by the 72-hour checkpoint?
 SELECT coverage,count(*) AS eligible,avg(documented) AS documented_by_72h,avg(report_delay) AS mean_reporting_delay FROM early GROUP BY 1 ORDER BY 1;
 -- duplicates | How many matching invoice and amount combinations appear more than once?

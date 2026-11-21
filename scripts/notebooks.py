@@ -21,8 +21,10 @@ class CurrentPythonKernel(KernelManager):
 for path in sorted((ROOT/"notebooks").glob("*.ipynb")):
     notebook = nbformat.read(path, as_version=4)
     manager = CurrentPythonKernel(kernel_name="python3")
-    client = NotebookClient(notebook, km=manager, timeout=180,
+    client = NotebookClient(notebook, km=manager, timeout=180, record_timing=False,
                             resources={"metadata":{"path": str(ROOT)}})
     client.execute(cleanup_kc=True)
+    for cell in notebook.cells:
+        cell.metadata.pop("execution", None)
     nbformat.write(notebook, path)
     print(f"Executed {path.name}")

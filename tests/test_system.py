@@ -145,3 +145,23 @@ def test_score_ties_keep_validation_flag_rate_within_cap():
     scores = np.r_[np.full(80,.1),np.full(15,.2),np.full(5,.3)]
     assert (scores >= capacity_threshold(scores)).sum() == 5
     assert not (np.ones(100) >= capacity_threshold(np.ones(100))).any()
+
+
+def test_holdout_outcomes_cannot_change_model_or_scores(ledger):
+    from src.modeling import fit
+
+    con, truth = ledger
+    features = get_features(con)
+    scores, audit = fit(features,truth,seed=27)
+    held_out = truth.claim_id.isin(scores.claim_id)
+    altered = truth.copy()
+    altered.loc[held_out,"actionable"] = ~altered.loc[held_out,"actionable"]
+    altered.loc[held_out,"avoidable_cents"] += 500_000
+    updated_scores, updated = fit(features,altered,seed=27)
+    for key in ("selected","amount_model","threshold"):
+        assert updated[key] == audit[key]
+    for key in ("validation","amount_validation"):
+        pd.testing.assert_frame_equal(pd.DataFrame(audit[key]),pd.DataFrame(updated[key]),
+                                      check_exact=False,rtol=1e-11,atol=1e-12)
+    pd.testing.assert_frame_equal(scores,updated_scores,check_exact=False,rtol=1e-11,atol=1e-12)
+    assert updated["test"]["ap"] != audit["test"]["ap"]

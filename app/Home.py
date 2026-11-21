@@ -44,7 +44,7 @@ def scores():
     return pd.read_parquet(SNAPSHOT / "scores.parquet")
 
 
-@st.cache_data
+@st.cache_data(max_entries=32)
 def run_scenario(scenario, coverage):
     frame = scores()
     if coverage != "All coverages":
@@ -189,7 +189,7 @@ def simulator(coverage):
     summary = summarize(results).reset_index()
     st.bar_chart(summary,x="strategy",y="net",horizontal=True)
     st.dataframe(summary,hide_index=True)
-    st.caption("Means over three matched synthetic replays. Net = prevented + recovered − review expense − modeled delay expense. Downside is the worst replay of the three.")
+    st.caption("Means over three matched synthetic replays. Net = prevented + recovered − review expense − modeled delay expense. Downside is the worst replay of the three. A positive mean offers limited evidence with only three synthetic draws.")
     export(results, "simulation_replays.csv")
 
 

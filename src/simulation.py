@@ -7,7 +7,9 @@ from src.decision import MISMATCH_RESPONSE, RECOVERABLE_FRACTION, STRATEGIES, op
 
 def population(scores, labels, scenario, seed):
     rng = np.random.default_rng(seed)
-    paired = scores.merge(labels, on="claim_id", validate="one_to_one")
+    paired = scores.merge(labels, on="claim_id", how="left", validate="one_to_one")
+    if paired.empty or paired[["actionable", "avoidable_cents", "mechanism", "effectiveness"]].isna().any().any():
+        raise ValueError("Replay requires a complete outcome for every scored claim")
     size = max(1, round(len(paired)*scenario.volume))
     baseline = paired.actionable.mean()
     target = np.clip(baseline*scenario.prevalence, 0, .95)
