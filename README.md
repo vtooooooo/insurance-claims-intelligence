@@ -1,4 +1,4 @@
-# Insurance Claims Leakage & Early Intervention Intelligence
+# [ClaimNexa](https://claiminsurance.streamlit.app/): Insurance Claims Leakage & Early Intervention Intelligence
 
 Northstar Mutual Insurance is a fictional US personal auto insurer. This project helps claims teams explore avoidable expenses and prioritize discretionary human review within budget, staffing and customer-delay constraints. A large payment can be appropriate for a complex claim. Review recommendations carry no authority over claim payments, coverage, or fraud determinations.
 
