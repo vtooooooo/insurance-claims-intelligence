@@ -1,0 +1,88 @@
+{
+  "summary": {
+    "claims": 120000,
+    "states": 8,
+    "vendors": 60,
+    "closure_rate": 1.0,
+    "settlement_days": 31.972891666666666,
+    "first_report": "2021-01-01",
+    "last_report": "2024-12-31"
+  },
+  "checks": {
+    "chronology": 0,
+    "event timing": 0,
+    "payments": 0,
+    "reserve continuity": 0,
+    "reserve closure": 0,
+    "reversals": 0,
+    "intervention chronology": 0,
+    "payment adjustment references": 0,
+    "duplicate reversals": 0,
+    "financial reconciliation": 0,
+    "duplicate indicator": 0
+  },
+  "descriptive": {
+    "feature_missingness": {
+      "claim_id": 0,
+      "checkpoint": 0,
+      "coverage": 0,
+      "severity": 0,
+      "complexity": 0,
+      "estimate": 0,
+      "reserve": 0,
+      "report_delay": 0,
+      "workload": 0,
+      "documented": 0,
+      "early_events": 0,
+      "liability": 0,
+      "vendor_days": 0,
+      "vendor_supp": 0,
+      "team": 0,
+      "state": 0
+    },
+    "duplicate_claim_ids": 0,
+    "paid_quantiles": {
+      "0.1": 199.13500000000005,
+      "0.5": 1760.8850000000002,
+      "0.9": 6022.06,
+      "0.99": 13606.79829999998
+    },
+    "avoidable_quantiles_positive": {
+      "0.1": 102.86800000000001,
+      "0.5": 330.39,
+      "0.9": 1061.6520000000007,
+      "0.99": 2499.688500000001
+    },
+    "eligible_prevalence": 0.06521267078371594,
+    "monthly_bootstrap_prevalence_ci": [
+      0.06231444715612394,
+      0.06831869311159303
+    ],
+    "severity_cycle_spearman": 0.2798922975678872,
+    "documentation_cycle_gap": {
+      "0": 35.64628682865124,
+      "1": 32.05771846861437
+    }
+  },
+  "sql_questions": {
+    "frequency": "How do reported volume and mean paid severity change by month?",
+    "paid_losses": "How much of each payment category posts by calendar month?",
+    "coverage": "Where are paid costs concentrated by coverage?",
+    "settlement": "How long do claims take to settle by severity?",
+    "estimate": "What is the signed difference between the early estimate and ultimate paid?",
+    "reserves": "How do aggregate reserves change by lifecycle event?",
+    "supplements": "How frequently do supplements post throughout the observation period?",
+    "vendors": "Which vendors have a cost residual after adjustment for severity, coverage and complexity?",
+    "workload": "How do cycle time and expected cycle differences vary by team?",
+    "documentation": "How often is documentation present by the 72-hour checkpoint?",
+    "duplicates": "How many matching invoice and amount combinations appear more than once?",
+    "recoveries": "What is the simulated exposure attributable to missed recoveries?",
+    "reopens": "How often are claims reopened after initial settlement?",
+    "leakage": "Which synthetic mechanisms contribute to avoidable cost exposure?",
+    "opportunities": "How many claims with actionable labels were eligible by 72 hours?",
+    "cohorts": "How does cumulative paid development by claim vintage compare at fixed ages?",
+    "bottlenecks": "How do cycle times differ by documentation status and complexity?",
+    "reconciliation": "How does legitimate cost reconcile to observed paid and avoidable costs?",
+    "vendor_trends": "How does posted loss move by booking month and repair specialization?"
+  }
+}

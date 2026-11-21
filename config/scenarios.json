@@ -1,0 +1,10 @@
+{
+  "Normal": {},
+  "High claim volume": {"volume": 1.45},
+  "Vendor price inflation": {"inflation": 1.25},
+  "Limited adjuster capacity": {"capacity": 2, "staff_hours": 1.5, "specialist_hours": 0.5},
+  "Higher leakage prevalence": {"prevalence": 1.7},
+  "Lower effectiveness": {"effectiveness": 0.35},
+  "Higher investigation costs": {"cost_scale": 2},
+  "Delayed documentation": {"documentation_delay": 1, "delay_per_hour": 0.85}
+}
